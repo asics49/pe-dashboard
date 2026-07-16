@@ -16,26 +16,73 @@ body{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#F0ED
 
 .main{max-width:900px;margin:0 auto;padding:32px 16px 80px;}
 
-.section-label{font-size:11px;font-weight:700;color:#8B7E6A;letter-spacing:.1em;margin-bottom:14px;}
-
+/* === 卡片網格 === */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:40px;}
 
-.card{background:#fff;border:1.5px solid #D8D3CB;border-radius:12px;padding:22px 20px 18px;display:flex;flex-direction:column;gap:10px;transition:all .2s;text-decoration:none;color:inherit;height:220px;}
-.card:hover{border-color:#C9A24B;box-shadow:0 4px 16px rgba(201,162,75,.18);transform:translateY(-2px);}
-.card-desc{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+/* === 卡片：固定高度，內容截斷 === */
+.card{
+  background:#fff;border:1.5px solid #D8D3CB;border-radius:12px;
+  padding:20px 18px 16px;display:flex;flex-direction:column;gap:8px;
+  text-decoration:none;color:inherit;
+  height:210px;overflow:hidden;
+  position:relative;cursor:pointer;
+  transition:border-color .15s;
+}
+.card:hover{border-color:#C9A24B;}
 
+/* 截斷描述文字 */
+.card-desc{
+  font-size:12px;color:#6B675F;line-height:1.7;
+  overflow:hidden;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;
+}
+
+/* === 浮動展開層 === */
+.card-popup{
+  position:absolute;
+  background:#fff;
+  border:2px solid #C9A24B;
+  border-radius:12px;
+  padding:20px 18px 16px;
+  display:flex;flex-direction:column;gap:8px;
+  text-decoration:none;color:inherit;
+  box-shadow:0 12px 40px rgba(34,58,82,.22);
+  z-index:999;
+  pointer-events:none;
+  opacity:0;
+  transform:scale(1) translateY(0);
+  transition:opacity .18s ease, transform .18s ease;
+  width:100%;
+  min-height:210px;
+  top:0;left:0;
+}
+.card-popup .card-desc{
+  overflow:visible;
+  display:block;
+  -webkit-line-clamp:unset;
+  -webkit-box-orient:unset;
+}
+.card-popup .card-tags{flex-wrap:wrap;}
+.card:hover .card-popup{
+  opacity:1;
+  pointer-events:auto;
+  transform:scale(1.045) translateY(-6px);
+  transform-origin:top center;
+}
+
+/* === 共用元件 === */
 .card-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;width:fit-content;}
 .badge-gold{background:#FDF3DC;color:#8B6A1A;}
 .badge-blue{background:#E8EFF8;color:#1E4A8B;}
 .badge-green{background:#E8F5E8;color:#1A5C1A;}
+.badge-purple{background:#F0E8F5;color:#5A1E8B;}
 
-.card-title{font-size:16px;font-weight:700;color:#223A52;line-height:1.3;}
-.card-desc{font-size:12px;color:#6B675F;line-height:1.7;}
+.card-title{font-size:15px;font-weight:700;color:#223A52;line-height:1.3;}
 
 .card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;}
 .tag{font-size:10px;background:#F5F2EC;color:#5A5650;border-radius:4px;padding:2px 8px;}
 
-.card-footer{margin-top:auto;padding-top:10px;border-top:1px solid #EDE9E1;display:flex;align-items:center;justify-content:space-between;}
+.card-footer{margin-top:auto;padding-top:8px;border-top:1px solid #EDE9E1;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .card-link{font-size:11px;font-weight:700;color:#C9A24B;text-decoration:none;display:flex;align-items:center;gap:4px;}
 .card-link svg{width:12px;height:12px;}
 .card-status{font-size:10px;color:#A09A90;}
@@ -43,7 +90,6 @@ body{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#F0ED
 .card-status.online::before{content:"● ";font-size:8px;}
 
 .divider{border:none;border-top:1.5px solid #E1DCCF;margin:8px 0 28px;}
-
 .info-box{background:#fff;border:1.5px solid #D8D3CB;border-radius:10px;padding:16px 20px;font-size:12px;color:#6B675F;line-height:1.8;}
 .info-box strong{color:#223A52;}
 </style>
@@ -53,101 +99,171 @@ body{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#F0ED
 <div class="header">
   <div class="header-logo">右昌國小體育組</div>
   <div class="header-title">體育班系統 <span>入口總覽</span></div>
-  <div class="header-sub">點選卡片前往各子系統　建議使用 Chrome 瀏覽器</div>
+  <div class="header-sub">移至卡片可預覽詳細說明，點擊進入系統　建議使用 Chrome 瀏覽器</div>
 </div>
 
 <div class="main">
 
   <div class="cards">
 
+    <!-- 1. 專項成績評分系統 -->
     <a class="card" href="https://script.google.com/a/macros/yocps.kh.edu.tw/s/AKfycbzzVbPpZf1vm7B8yuoHTiu-ggbnhNpkuf9jGZx4p_caqjQFSlmYPoglcroLMlPuaY47Og/exec" target="_blank" rel="noopener">
       <span class="card-badge badge-gold">成績管理</span>
       <div class="card-title">體育班專項成績評分系統</div>
       <div class="card-desc">足球隊與田徑隊的測驗成績輸入、評等計算、Word 成績單匯出，以及學生身體組成管理。</div>
       <div class="card-tags">
-        <span class="tag">成績輸入</span>
-        <span class="tag">批次匯入</span>
-        <span class="tag">成績匯出</span>
-        <span class="tag">名單管理</span>
-        <span class="tag">基本資料</span>
+        <span class="tag">成績輸入</span><span class="tag">批次匯入</span>
+        <span class="tag">成績匯出</span><span class="tag">名單管理</span><span class="tag">基本資料</span>
       </div>
       <div class="card-footer">
         <span class="card-link">開啟系統 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
         <span class="card-status online">線上運作中</span>
       </div>
+      <!-- 展開層 -->
+      <div class="card-popup">
+        <span class="card-badge badge-gold">成績管理</span>
+        <div class="card-title">體育班專項成績評分系統</div>
+        <div class="card-desc">足球隊與田徑隊的測驗成績輸入、評等計算、Word 成績單匯出，以及學生身體組成管理。支援六個功能分頁，適合教練日常記錄使用。</div>
+        <div class="card-tags">
+          <span class="tag">成績輸入</span><span class="tag">批次匯入</span>
+          <span class="tag">成績匯出</span><span class="tag">名單管理</span><span class="tag">基本資料</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">點擊開啟系統 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          <span class="card-status online">線上運作中</span>
+        </div>
+      </div>
     </a>
 
+    <!-- 2. 資料上傳系統 -->
     <a class="card" href="https://script.google.com/macros/s/AKfycbyjVAz-JmkUU78HcnSMFjdsVa7FUPlAatFUhB1Yfbp2FantL5xG0dQ9cZR7qoSymHxQBw/exec" target="_blank" rel="noopener">
       <span class="card-badge badge-green">成果上傳</span>
       <div class="card-title">體育組資料上傳系統</div>
       <div class="card-desc">將評鑑相關文件上傳至對應的 Google Drive 資料夾，並自動記錄上傳資訊至 Google Sheets。</div>
       <div class="card-tags">
-        <span class="tag">檔案上傳</span>
-        <span class="tag">Drive 整合</span>
-        <span class="tag">上傳記錄</span>
+        <span class="tag">檔案上傳</span><span class="tag">Drive 整合</span><span class="tag">上傳記錄</span>
       </div>
       <div class="card-footer">
         <span class="card-link">開啟系統 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
         <span class="card-status online">線上運作中</span>
       </div>
+      <div class="card-popup">
+        <span class="card-badge badge-green">成果上傳</span>
+        <div class="card-title">體育組資料上傳系統</div>
+        <div class="card-desc">將評鑑相關文件上傳至對應的 Google Drive 資料夾，並自動記錄上傳者、時間與檔案資訊至 Google Sheets，方便追蹤上傳狀態。</div>
+        <div class="card-tags">
+          <span class="tag">檔案上傳</span><span class="tag">Drive 整合</span><span class="tag">上傳記錄</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">點擊開啟系統 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          <span class="card-status online">線上運作中</span>
+        </div>
+      </div>
     </a>
 
+    <!-- 3. 體適能常模 -->
     <a class="card" href="https://asics49.github.io/fitness-check/" target="_blank" rel="noopener">
       <span class="card-badge badge-blue">體適能</span>
       <div class="card-title">體適能常模對照工具</div>
       <div class="card-desc">上傳 Excel 成績檔，自動對照教育部常模，產出各項目通過率統計與個人對照結果。</div>
       <div class="card-tags">
-        <span class="tag">Excel 匯入</span>
-        <span class="tag">常模對照</span>
-        <span class="tag">通過率統計</span>
+        <span class="tag">Excel 匯入</span><span class="tag">常模對照</span><span class="tag">通過率統計</span>
       </div>
       <div class="card-footer">
         <span class="card-link">開啟工具 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
         <span class="card-status online">線上運作中</span>
       </div>
+      <div class="card-popup">
+        <span class="card-badge badge-blue">體適能</span>
+        <div class="card-title">體適能常模對照工具</div>
+        <div class="card-desc">上傳 Excel 成績檔，自動對照教育部體適能常模標準，產出各項目通過率統計，並可查看每位學生的個人對照結果。無需登入，公開使用。</div>
+        <div class="card-tags">
+          <span class="tag">Excel 匯入</span><span class="tag">常模對照</span><span class="tag">通過率統計</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">點擊開啟工具 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          <span class="card-status online">線上運作中</span>
+        </div>
+      </div>
     </a>
 
+    <!-- 4. 評鑑文件總覽 -->
     <a class="card" href="https://asics49.github.io/pe-tools/" target="_blank" rel="noopener">
       <span class="card-badge badge-green">評鑑</span>
       <div class="card-title">體育班評鑑文件總覽</div>
       <div class="card-desc">115年度體育班評鑑 89 筆文件管理，含文件產生工具、文件上傳系統與 Google Drive 連結。</div>
       <div class="card-tags">
-        <span class="tag">評鑑文件</span>
-        <span class="tag">文件產生</span>
-        <span class="tag">Drive 上傳</span>
-        <span class="tag">使用說明</span>
+        <span class="tag">評鑑文件</span><span class="tag">文件產生</span>
+        <span class="tag">Drive 上傳</span><span class="tag">使用說明</span>
       </div>
       <div class="card-footer">
         <span class="card-link">開啟系統 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
         <span class="card-status online">線上運作中</span>
       </div>
+      <div class="card-popup">
+        <span class="card-badge badge-green">評鑑</span>
+        <div class="card-title">體育班評鑑文件總覽</div>
+        <div class="card-desc">115年度體育班評鑑共 89 筆文件，可依負責人員篩選，提供文件產生工具連結、Google Drive 上傳資料夾及參考資料連結。</div>
+        <div class="card-tags">
+          <span class="tag">評鑑文件</span><span class="tag">文件產生</span>
+          <span class="tag">Drive 上傳</span><span class="tag">使用說明</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">點擊開啟系統 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          <span class="card-status online">線上運作中</span>
+        </div>
+      </div>
     </a>
 
+    <!-- 5. 評鑑文件產生工具 -->
     <a class="card" href="https://asics49.github.io/pe-tools/pe-class-tools.html" target="_blank" rel="noopener">
       <span class="card-badge badge-green">評鑑工具</span>
       <div class="card-title">評鑑文件產生工具</div>
       <div class="card-desc">5 個評鑑文件模組，填表後直接下載 Word，對應評鑑各項指標文件需求。</div>
       <div class="card-tags">
-        <span class="tag">m1～m4</span>
-        <span class="tag">Word 下載</span>
+        <span class="tag">m1～m4</span><span class="tag">Word 下載</span>
       </div>
       <div class="card-footer">
         <span class="card-link">開啟工具 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
         <span class="card-status online">線上運作中</span>
       </div>
+      <div class="card-popup">
+        <span class="card-badge badge-green">評鑑工具</span>
+        <div class="card-title">評鑑文件產生工具</div>
+        <div class="card-desc">包含 5 個評鑑文件模組（m1～m4），在網頁上填寫表單後，直接下載對應的 Word 文件，省去手動排版時間，對應各項評鑑指標需求。</div>
+        <div class="card-tags">
+          <span class="tag">m1～m4</span><span class="tag">Word 下載</span><span class="tag">線上填表</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">點擊開啟工具 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          <span class="card-status online">線上運作中</span>
+        </div>
+      </div>
     </a>
 
+    <!-- 6. 評鑑工具使用說明 -->
     <a class="card" href="https://asics49.github.io/pe-tools/guide.html" target="_blank" rel="noopener">
-      <span class="card-badge" style="background:#F0E8F5;color:#5A1E8B;">說明</span>
+      <span class="card-badge badge-purple">說明</span>
       <div class="card-title">評鑑工具使用說明</div>
       <div class="card-desc">評鑑文件工具的完整操作說明，含各模組用途、步驟說明與常見問題解答。</div>
       <div class="card-tags">
-        <span class="tag">操作手冊</span>
-        <span class="tag">Q&amp;A</span>
+        <span class="tag">操作手冊</span><span class="tag">Q&amp;A</span>
       </div>
       <div class="card-footer">
         <span class="card-link">開啟說明 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
         <span class="card-status online">線上運作中</span>
+      </div>
+      <div class="card-popup">
+        <span class="card-badge badge-purple">說明</span>
+        <div class="card-title">評鑑工具使用說明</div>
+        <div class="card-desc">評鑑文件工具的完整操作說明，包含各模組用途介紹、逐步操作流程、常見問題 Q&amp;A，以及上傳系統使用方式，適合初次使用者參考。</div>
+        <div class="card-tags">
+          <span class="tag">操作手冊</span><span class="tag">Q&amp;A</span><span class="tag">初次使用</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-link">點擊開啟說明 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          <span class="card-status online">線上運作中</span>
+        </div>
       </div>
     </a>
 
@@ -158,6 +274,7 @@ body{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#F0ED
     <strong>使用提示</strong><br>
     · 專項成績評分系統及評鑑文件上傳均需使用 <strong>學校網域帳號（yocps.kh.edu.tw）</strong>登入<br>
     · 體適能工具與評鑑總覽為公開靜態頁面，無需登入<br>
+    · 後續將持續新增體育團隊及體育班相關模組，歡迎提供想法與建議給體育組<br>
     · 建議書籤本頁作為日常入口：<strong>asics49.github.io/pe-dashboard/</strong>
   </div>
 
