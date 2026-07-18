@@ -162,10 +162,12 @@ body{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#F0ED
       </div>
     </a>
 
-    <!-- 3. 體育組經費管控系統：2026-07-17 起存取權限改為「任何 Google 帳號（需登入）」，
-         由系統內的 Users 名單把關；選錯帳號會看到系統自己的「尚未授權」頁（可切換帳號），
-         不會再出現 Google 雲端硬碟的錯誤頁，所以直接連系統網址即可 -->
-    <a class="card" href="https://script.google.com/macros/s/AKfycbyjunDTcGPQo3tfQojxB9wUBcWPNdQTRCdfQ4gdyIK5PO_XtruQkqBn4KgOOE78TaT7/exec" target="_blank" rel="noopener">
+    <!-- 3. 體育組經費管控系統：連結先經過 Google 帳號選擇頁（AccountChooser）再導回系統。
+         原因：瀏覽器同時登入多個 Google 帳號時，直接開 /exec，Google 會自己「猜」一個帳號
+         （網址列會出現 /u/1/ 之類的帳號索引），猜到不能用的帳號就會跳雲端硬碟「無法開啟檔案」
+         的錯誤頁——這發生在系統任何畫面之前，系統無法攔截。改成先讓使用者「明確點選帳號」，
+         Google 就會用選定的帳號開啟，不再亂猜。加的帳號越多越需要這一步。 -->
+    <a class="card" href="https://accounts.google.com/AccountChooser?continue=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyjunDTcGPQo3tfQojxB9wUBcWPNdQTRCdfQ4gdyIK5PO_XtruQkqBn4KgOOE78TaT7%2Fexec" target="_blank" rel="noopener">
       <span class="card-badge badge-orange">經費管控</span>
       <div class="card-title">體育組經費管控系統</div>
       <div class="card-desc">各計畫核定經費、支出核銷與結餘即時查詢。老師登打自己負責計畫的支出，會計唯讀總覽，管理者可新增/刪除計畫。</div>
